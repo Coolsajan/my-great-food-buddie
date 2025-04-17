@@ -1,8 +1,11 @@
 pandas
 numpy
-dotenv
+python-dotenv
 selenium
 nltk
 snowballstemmer
 chromadb
+langchain
 langchain-huggingface
+sentence-transformers
+langchain-chroma
