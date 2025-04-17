@@ -1,0 +1,8 @@
+pandas
+numpy
+dotenv
+selenium
+nltk
+snowballstemmer
+chromadb
+langchain-huggingface
