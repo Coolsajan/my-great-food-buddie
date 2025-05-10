@@ -101,6 +101,7 @@ class TripAdviserDataPull:
             response = requests.get(url, headers=headers, params=querystring)
             logging.info("Review captured in buled json...")
 
+            print(response)
             data_list=list(response.json()["data"])
 
             for data in data_list:

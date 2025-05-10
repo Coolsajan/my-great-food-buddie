@@ -5,7 +5,10 @@ selenium
 nltk
 snowballstemmer
 chromadb
+langchain-openai
 langchain
 langchain-huggingface
 sentence-transformers
 langchain-chroma
+langchain-community
+langchain-ollama
