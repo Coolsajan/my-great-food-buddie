@@ -1,4 +1,4 @@
-import os,pickle,sys
+import os,pickle,sys,re
 from utils.logger import logging
 from utils.exceptions import CustomException
 
@@ -25,3 +25,56 @@ def load_reviews(filepath):
     except Exception as e:
         raise CustomException(e,sys)
         
+
+def get_foodPlace_vector_path(foodPlace):
+    try:
+        safe_foodPlace = re.sub(r"[^\w.-]", "_", foodPlace)
+        vector_path = os.path.join("data", "vector_store", safe_foodPlace)
+    except Exception as e:
+        raise CustomException(e,sys)
+    
+    return vector_path
+
+food_recommendation_keywords = [
+    # Taste & Flavor
+    "delicious", "tasty", "flavorful", "bland", "undercooked", "spicy", "sweet",
+    "salty", "sour", "overcooked", "authentic", "fresh", "dry", "greasy",
+
+    # Recommendations & Popularity
+    "best", "must try", "must-try", "recommended", "famous", "popular",
+    "signature", "favorite", "specialty",
+
+    # Dietary Restrictions / Preferences
+    "vegan", "vegetarian", "gluten-free", "halal", "keto", "lactose-free", "healthy",
+
+    # Portion / Value
+    "portion", "serving", "size", "value", "worth", "expensive", "cheap", "affordable",
+    "enough for two", "shareable", "good for sharing",
+
+    # Ambience / Setting
+    "romantic", "family-friendly", "quiet", "casual", "luxury", "cozy", "view", "ambience",
+
+    # Service
+    "friendly", "slow", "fast service", "attentive", "rude", "welcoming", "staff",
+
+    # Meal Type / Time
+    "breakfast", "brunch", "lunch", "dinner", "late night", "dessert", "snacks",
+
+    # Cuisine Types
+    "italian", "indian", "mexican", "thai", "japanese", "seafood", "bbq", "burger",
+    "pizza", "noodles", "steak", "pasta", "curry", "sushi",
+
+    # Mood / Emotions
+    "craving", "comfort food", "celebration", "feel like eating", "hungry", "something new"
+]
+
+
+def trig_retriver(question, keywords = food_recommendation_keywords):
+    question_key = list(question.split())
+
+    for keys in question_key:
+        if keys in keywords:
+            retiver = True
+        else :
+            retriver = False
+    return retriver

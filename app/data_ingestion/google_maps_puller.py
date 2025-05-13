@@ -51,7 +51,7 @@ class GoogleMapsDataPull:
             response = requests.get(url, headers=headers, params=querystring)
             logging.info(f"Responsed grerated for {self.foodPlace} ...")
 
-            business_id=response.json()['data'][0].get("business_id")
+            business_id=response.json()['parameters'][0].get("business_id")
             logging.info("Business id collection...")
 
             return business_id
@@ -65,25 +65,26 @@ class GoogleMapsDataPull:
         """
         try:
             logging.info(f"Starting the review pull from rapid api using {self.foodPlace}:{business_id}")
-            url = "https://maps-data.p.rapidapi.com/reviews.php"
+            url = "https://local-business-data.p.rapidapi.com/business-reviews"
 
-            querystring = {"business_id":business_id,"country":"us","lang":"en","limit":"50","sort":"Relevant"}
+            querystring = {"business_id":business_id,"limit":"5000","sort_by":"most_relevant","region":"us","language":"en"}
 
             headers = {
                 "x-rapidapi-key": RAPID_API_KEY,
-                "x-rapidapi-host": "maps-data.p.rapidapi.com"
+                "x-rapidapi-host": "local-business-data.p.rapidapi.com"
             }
 
             response = requests.get(url, headers=headers, params=querystring)
-            logging.info(f"Responsed generated for {self.foodPlace} ...")
 
-            data_list=list(response.json()['data'].get("reviews"))
+            logging.info(f"Responsed generated for {self.foodPlace} ...")
+            print(response.json())
+            data_list=list(response.json()['data'])
             logging.info(f"Data list obtained with {len(data_list)} datas.")
             reviews=[]
 
             for data in data_list:
                 data=dict(data)
-                review=data.get("translations")
+                review=data.get("review_text")
 
                 reviews.append(review)
 

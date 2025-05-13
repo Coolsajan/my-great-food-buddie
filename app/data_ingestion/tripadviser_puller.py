@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC 
+from googlesearch import search
 from dotenv import load_dotenv
 from pathlib import Path
 import time,random
@@ -48,34 +49,8 @@ class TripAdviserDataPull:
         try:
             logging.info("Entered inot  TripAdviserDataPull... ")
 
-            options = webdriver.ChromeOptions()
-            options.add_argument("--start-maximized")
-            options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
-            options.add_argument("--headless")
-
-            logging.info("Webdriver option setting sucessfull..")
-            driver = webdriver.Chrome(options=options)
-            driver.get("https://www.tripadvisor.com/")
-
-            search_box=WebDriverWait(driver=driver,timeout=15).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR,"input[type='search'][placeholder*='Places to go']"))
-                )
-            logging.info("Search box found...")
-            
-            search_box.send_keys(self.foodPlace)
-            time.sleep(random.uniform(2, 4))
-            search_box.send_keys(Keys.ENTER)
-            logging.info(f"{self.foodPlace} entered into search box.")
-
-            first_result_card = WebDriverWait(driver, 15).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, "div[data-test-attribute='location-results-card'] a"))
-                )
-            
-            review_link=first_result_card.get_attribute("href")
-            logging.info("TripAdviser link obtained sucessfully..")
-
-            driver.quit()
-            logging.info("Driver closed...")
+            response = list(search(self.foodPlace , num_results=10))
+            review_link = [ link for link in response if "tripadvisor.com" in link][0]
 
             return review_link
 
@@ -135,7 +110,6 @@ class TripAdviserDataPull:
 
         except Exception as e:
             raise CustomException(e,sys)
-
 
 
 

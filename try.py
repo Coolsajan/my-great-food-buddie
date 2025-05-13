@@ -1,4 +1,26 @@
-a={'query': 'What is the best non veg food here ad do they have vegan option.', 'result': 'As a review analyst for this food company, I\'ve had the pleasure of diving into customer feedback and ratings across various platforms. When it comes to non-veg options, we have some clear winners!\n\nAccording to our data, the top-rated non-veg item is our signature "Spicy Chicken Tenders" dish. Customers rave about the crispy exterior, juicy interior, and perfect balance of spices. We\'ve had over 200 reviews with an average rating of 4.8/5 stars for this particular item.\n\nNow, regarding vegan options, I\'m happy to report that we do have some delicious plant-based choices! Our most popular vegan option is our "Vegan Black Bean Burger," which has earned a whopping 4.9/5-star average from over 150 reviews. Customers love the flavorful patty, fresh toppings, and satisfying texture.\n\nWe also offer a "Roasted Veggie Wrap" that\'s gained significant popularity among our vegan customers. The wrap is stuffed with roasted vegetables, hummus, and mixed greens, all wrapped in a whole-grain tortilla. This item has an impressive 4.7/5-star average from over 100 reviews.\n\nIf you\'re looking for something more adventurous, our "Vegan Lentil Curry" is another fan favorite! This comforting dish features tender lentils cooked in a rich, aromatic curry sauce, served with fluffy basmati rice and naan bread. With an average rating of 4.6/5 stars from over 50 reviews, it\'s clear that customers are loving this hearty, plant-based option.\n\nSo, whether you\'re a non-veg enthusiast or a dedicated vegan, we\'ve got something for everyone!'}
+import os
+import re
 
-print(a['query'])
-print(a['result'])
+from app.data_ingestion.google_maps_puller import GoogleMapsDataPull
+from app.data_ingestion.tripadviser_puller import TripAdviserDataPull ,TripAdviserDataPullConfig
+from app.preprocessing import CleanAndSaveToChromaDBC
+from app.retriver import load_retriver
+
+# Get user input
+foodPlace = input("At which cafe are you right now?: ").lower()
+safe_foodPlace = re.sub(r"[^\w.-]", "_", foodPlace)
+vector_path = os.path.join("data", "vector_store", safe_foodPlace)
+
+
+cleaner_store=CleanAndSaveToChromaDBC()
+google = TripAdviserDataPull(foodPlace=foodPlace)
+id = google.get_tripadviser_link()
+print(id)
+
+rev=google.get_reviews(review_link=id)
+
+os.makedirs(TripAdviserDataPullConfig().review_save_file_path ,exist_ok=True)
+path=google.initiate_tripadviser_data_pull()
+cleaner_store.initiate_clean_chromadb(foodPlace=foodPlace,filepath=vector_path)
+
+print(rev)

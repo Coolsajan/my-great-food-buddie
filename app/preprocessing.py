@@ -32,7 +32,7 @@ class CleanAndSaveToChromaDBC:
             logging.info("Starting get_data method from CleanAndSaveToChromeDBC class.. ")
 
             first_review=load_reviews(filepath=filepath[0])
-            second_review=load_reviews(filepath=filepath[1])
+            second_review=load_reviews(filepath=filepath[-1])
 
             full_reviews = first_review + second_review
 
