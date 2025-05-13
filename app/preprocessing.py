@@ -91,7 +91,7 @@ class CleanAndSaveToChromaDBC:
             path=os.path.join(CleanAndSaveToChromaDBConfig().chromedb_save_filepath,safe_foodPlace)
             os.makedirs(path,exist_ok=True)
             
-            client = PersistentClient(path=path)
+            client = PersistentClient(path=path , settings=Settings(chroma_db_imp="duckb+parquet"))
             collection = client.get_or_create_collection(name=safe_foodPlace)
             collection.add(documents=cleaned_reviews, embeddings=vectors, ids=[f"id-{i}" for i in range(len(cleaned_reviews))])
 
