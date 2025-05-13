@@ -53,7 +53,7 @@ def retrive_generate(retriever,question):
     """)
 
     # Load LLaMA 3 via Ollama
-    model = OllamaLLM(model="tinyllama",base_url="http://localhost:11434")
+    model = OllamaLLM(model="llama3",base_url="http://localhost:11434")
 
     # Create QA chain
     qa_chain = RetrievalQA.from_chain_type(
