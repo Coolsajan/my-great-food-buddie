@@ -6,7 +6,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from googlesearch import search
 from dotenv import load_dotenv
 from pathlib import Path
-import time,random
 import sys,os
 import requests
 
