@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 import sys,os
 import requests
+from serpapi import search
 
 from utils.exceptions import CustomException
 from utils.logger import logging
@@ -16,6 +17,7 @@ from dataclasses import dataclass
 
 load_dotenv(dotenv_path=".env")
 RAPID_API_KEY=os.getenv("RAPID_API_KEY")
+SERPAPI_KEY = os.getenv("SERPAPI_KEY")
 
 @dataclass
 class TripAdviserDataPullConfig:
@@ -48,8 +50,16 @@ class TripAdviserDataPull:
         try:
             logging.info("Entered inot  TripAdviserDataPull... ")
 
-            response = list(search(self.foodPlace , num_results=10))
-            review_link = [ link for link in response if "tripadvisor.com" in link][0]
+            params = {"engine": "google",
+                       "q": "white rabbit pokhara",
+                        "api_key": SERPAPI_KEY}
+            
+            response = search(params=params)
+
+            for data in response['organic_results']:
+                if "tripadvisor.com" in data["link"]:
+                    review_link = data['link']
+                    break
 
             return review_link
 
