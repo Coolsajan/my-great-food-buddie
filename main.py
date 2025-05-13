@@ -1,12 +1,14 @@
 __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
+
 import streamlit as st
 from app.recommender import retrive_generate, check_dB_data
 import time
 from streamlit_lottie import st_lottie
 import requests
-import json
+
 
 # Set page configuration
 st.set_page_config(
