@@ -152,3 +152,4 @@ wrapt
 wsproto
 zipp
 zstandard
+serpapi
