@@ -125,7 +125,7 @@ sortedcontainers
 soupsieve
 SQLAlchemy
 starlette
-streamlit
+streamlit==1.31.0
 streamlit-lottie
 sympy
 tenacity
