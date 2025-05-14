@@ -7,6 +7,12 @@ from chromadb import PersistentClient
 from chromadb.config import Settings
 import re
 import os,sys
+import sys
+import pysqlite3
+
+# Patch sqlite3 to use pysqlite3
+sys.modules["sqlite3"] = pysqlite3
+sys.modules["sqlite"] = pysqlite3
 
 
 from dataclasses import dataclass
