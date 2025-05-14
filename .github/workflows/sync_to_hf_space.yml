@@ -1,0 +1,27 @@
+name: Sync to Hugging Face Space
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  sync-to-hf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          lfs: true
+
+      - name: Push to Hugging Face Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git config --global user.email "your-email@example.com"
+          git config --global user.name "Your Name"
+          git clone https://huggingface.co/spaces/your_username/your_space_name hf_space
+          rsync -av --exclude='.git' ./ hf_space/
+          cd hf_space
+          git add .
+          git commit -m "Sync from GitHub"
+          git push https://your_username:$HF_TOKEN@huggingface.co/spaces/your_username/your_space_name main
