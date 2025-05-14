@@ -24,4 +24,4 @@ jobs:
           cd hf_space
           git add .
           git commit -m "Sync from GitHub"
-          git push https://your_username:$HF_TOKEN@huggingface.co/spaces/your_username/your_space_name main
+          git push https://coolsajan:$HF_TOKEN@huggingface.co/spaces/coolsajan/mygreatfoodbuddie main
