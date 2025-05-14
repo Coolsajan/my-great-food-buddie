@@ -17,9 +17,9 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          git config --global user.email "your-email@example.com"
-          git config --global user.name "Your Name"
-          git clone https://huggingface.co/spaces/your_username/your_space_name hf_space
+          git config --global user.email "tsajan001@gmail.com"
+          git config --global user.name "Sajan Thapa"
+          git clone https://huggingface.co/spaces/coolsajan/mygreatfoodbuddie hf_space
           rsync -av --exclude='.git' ./ hf_space/
           cd hf_space
           git add .
