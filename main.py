@@ -4,7 +4,7 @@ import time ,sys
 from streamlit_lottie import st_lottie
 import requests
 
-sys.modules['torch.classes'].__path__ = []
+
 # Set page configuration
 st.set_page_config(
     page_title="Food Buddy Chatbot",

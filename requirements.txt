@@ -6,6 +6,7 @@ duckdb
 fastapi
 gitdb
 GitPython
+selenium
 httpx
 huggingface-hub
 joblib
@@ -19,12 +20,12 @@ langchain-text-splitters
 langsmith
 numpy
 ollama
+dotenv
 pandas
 pydantic
 requests
 scikit-learn
 scipy
-selenium
 sentence-transformers
 serpapi
 streamlit
@@ -33,3 +34,4 @@ tokenizers
 torch
 tqdm
 transformers
+docker
