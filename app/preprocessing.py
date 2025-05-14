@@ -1,27 +1,12 @@
 from utils.logger import logging
 from utils.exceptions import CustomException
 from utils.common_utils import load_reviews
-import sys
-import pysqlite3
-
-sys.modules["sqlite3"] = pysqlite3
-sys.modules["sqlite3.dbapi2"] = pysqlite3.dbapi2
-
-
 from sentence_transformers import SentenceTransformer
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from chromadb import PersistentClient
 from chromadb.config import Settings
 import re
 import os,sys
-import sys
-import pysqlite3
-
-# Patch sqlite3 to use pysqlite3
-sys.modules["sqlite3"] = pysqlite3
-sys.modules["sqlite"] = pysqlite3
-
-
 from dataclasses import dataclass
 
 
@@ -104,7 +89,7 @@ class CleanAndSaveToChromaDBC:
             path=os.path.join(CleanAndSaveToChromaDBConfig().chromedb_save_filepath,safe_foodPlace)
             os.makedirs(path,exist_ok=True)
             
-            client = PersistentClient(path=path , settings=Settings(chroma_db_imp="duckb+parquet"))
+            client = PersistentClient(path=path)
             collection = client.get_or_create_collection(name=safe_foodPlace)
             collection.add(documents=cleaned_reviews, embeddings=vectors, ids=[f"id-{i}" for i in range(len(cleaned_reviews))])
 
