@@ -13,7 +13,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Custom CSS for better styling and animations
+# Custom CSS for better styling and animations loading.
 st.markdown("""
 <style>
     .main {
