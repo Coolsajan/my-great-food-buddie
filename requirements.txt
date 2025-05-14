@@ -37,3 +37,4 @@ torch
 tqdm
 transformers
 serpapi
+sentence_transformers

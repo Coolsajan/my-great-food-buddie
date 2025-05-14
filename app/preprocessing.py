@@ -1,6 +1,13 @@
 from utils.logger import logging
 from utils.exceptions import CustomException
 from utils.common_utils import load_reviews
+import sys
+import pysqlite3
+
+sys.modules["sqlite3"] = pysqlite3
+sys.modules["sqlite3.dbapi2"] = pysqlite3.dbapi2
+
+
 from sentence_transformers import SentenceTransformer
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from chromadb import PersistentClient
