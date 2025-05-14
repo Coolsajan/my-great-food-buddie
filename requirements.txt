@@ -34,3 +34,4 @@ torch
 tqdm
 transformers
 serpapi
+pysqlite3
