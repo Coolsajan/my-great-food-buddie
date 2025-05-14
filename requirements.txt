@@ -21,7 +21,10 @@ langsmith
 numpy
 ollama
 pandas
+langchain
+duckdb
 pydantic
+selenium
 requests
 scikit-learn
 scipy
@@ -34,4 +37,3 @@ torch
 tqdm
 transformers
 serpapi
-pysqlite3
