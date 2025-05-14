@@ -3,7 +3,7 @@ from utils.exceptions import CustomException
 from utils.common_utils import load_reviews
 from sentence_transformers import SentenceTransformer
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from chromadb import PersistentClient
+from chromadb import PersistentClient ,Client
 from chromadb.config import Settings
 import re
 import os,sys
