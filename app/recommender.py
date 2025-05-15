@@ -67,7 +67,6 @@ def retrieve_and_generate(retriever, question, use_hf=True):
             llm = HuggingFaceEndpoint(
                 repo_id="google/flan-t5-large",
                 temperature=0.7,
-                max_new_tokens=512,
                 return_full_text=False,
                 huggingfacehub_api_token=hf_token,
                 task="text2text-generation"
@@ -79,7 +78,7 @@ def retrieve_and_generate(retriever, question, use_hf=True):
         qa_chain = RetrievalQA.from_chain_type(
             llm=llm,
             retriever=retriever,
-            chain_type="stuff",
+            chain_type="map_reduce",
             chain_type_kwargs={"prompt": prompt},
             return_source_documents=True
         )
