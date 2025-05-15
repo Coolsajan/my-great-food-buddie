@@ -1,4 +1,17 @@
-# 🍔 Food Buddiie - RAG + LLM Restaurant Review Chatbot
+---
+title: Great Food Buddie
+emoji: 🍽️
+colorFrom: indigo
+colorTo: pink
+sdk: streamlit
+sdk_version: "1.45.1"
+suggested_hardware: "cpu-basic"
+suggested_storgae: "medium"
+app_file: app.py
+pinned: false
+---
+
+# 🍔 Great Food Buddiie - RAG + LLM Restaurant Review Chatbot
 
 Food Buddiie is an intelligent chatbot that helps users explore restaurant reviews using a **Retrieval-Augmented Generation (RAG)** pipeline. It combines **Chroma DB** for storing and retrieving restaurant review embeddings with **LLaMA 3** for generating conversational responses. Built with **Streamlit** and deployed on **Hugging Face Spaces**.
 
