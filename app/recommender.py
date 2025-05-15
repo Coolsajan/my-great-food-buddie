@@ -70,7 +70,7 @@ def retrieve_and_generate(retriever, question, use_hf=True):
                 max_new_tokens=512,
                 return_full_text=False,
                 huggingfacehub_api_token=hf_token,
-                task="text-generation"
+                task="text2text-generation"
             )
         else:
             llm = OllamaLLM(model="llama2", temperature=0.7)
