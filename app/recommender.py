@@ -1,5 +1,5 @@
 import os
-import re
+import traceback
 
 from app.data_ingestion.google_maps_puller import GoogleMapsDataPull
 from app.data_ingestion.tripadviser_puller import TripAdviserDataPull
@@ -90,4 +90,5 @@ def retrieve_and_generate(retriever, question, use_hf=True):
 
     except Exception as e:
         print(f"Generation Error: {e}")
-        return question, "Could not generate a response."   
+        traceback.print_exc()
+        return question, "Could not generate a response."
