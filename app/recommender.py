@@ -10,7 +10,6 @@ from app.retriver import load_retriver
 from utils.common_utils import *
 from langchain_huggingface import HuggingFaceEndpoint ,ChatHuggingFace ,HuggingFacePipeline
 from langchain.prompts import ChatPromptTemplate
-from langchain_community.llms import Hugg 
 from langchain_ollama import OllamaLLM
 from langchain.chains import RetrievalQA 
 
