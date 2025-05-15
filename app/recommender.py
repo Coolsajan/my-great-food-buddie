@@ -44,8 +44,11 @@ def check_dB_data(foodPlace):
     print(retriever)
     return retriever
 
-def retrive_generate(retriever, question):
-    # Use proper chat template
+def retrieve_and_generate(retriever, question, use_hf=True):
+    """
+    Retrieves context using the provided retriever and generates a response
+    using either Hugging Face or a local model.
+    """
     prompt = ChatPromptTemplate.from_template("""
         [INST] <<SYS>>
         You're a food review analyst. Answer naturally using the context.
@@ -55,27 +58,36 @@ def retrive_generate(retriever, question):
         Question: {question} [/INST]
     """)
 
-    # Configure HuggingFace Endpoint properly
-    llm = HuggingFaceEndpoint(
-    repo_id="meta-llama/Llama-2-7b",
-    temperature=0.7,
-    max_new_tokens=512,
-    return_full_text=False,  # Moved out of model_kwargs
-    huggingfacehub_api_token=os.environ["HUGGINGFACEHUB_API_TOKEN"],
-    task="text-generation",
-)
-
-    qa_chain = RetrievalQA.from_chain_type(
-        llm=llm,
-        retriever=retriever,
-        chain_type="stuff",
-        chain_type_kwargs={"prompt": prompt},
-        return_source_documents=True  
-    )
-
     try:
+        if use_hf:
+            hf_token = os.getenv("HUGGINGFACEHUB_API_TOKEN")
+            if not hf_token:
+                raise EnvironmentError("Missing HUGGINGFACEHUB_API_TOKEN environment variable")
+
+            llm = HuggingFaceEndpoint(
+                repo_id="meta-llama/Llama-2-7b",
+                temperature=0.7,
+                max_new_tokens=512,
+                return_full_text=False,
+                huggingfacehub_api_token=hf_token,
+                task="text-generation"
+            )
+        else:
+            llm = OllamaLLM(model="llama2", temperature=0.7)
+
+        # 3. QA Chain
+        qa_chain = RetrievalQA.from_chain_type(
+            llm=llm,
+            retriever=retriever,
+            chain_type="stuff",
+            chain_type_kwargs={"prompt": prompt},
+            return_source_documents=True
+        )
+
+        # 4. Run
         result = qa_chain.invoke({"query": question})
         return question, result["result"]
+
     except Exception as e:
-        print(f"Generation Error: {str(e)}")
-        return question, "Could not generate response"    
+        print(f"Generation Error: {e}")
+        return question, "Could not generate a response."   
