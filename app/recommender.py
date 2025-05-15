@@ -49,14 +49,21 @@ def retrieve_and_generate(retriever, question, use_hf=True):
     Retrieves context using the provided retriever and generates a response
     using either Hugging Face or a local model.
     """
-    prompt = PromptTemplate.from_template("""
-        [INST] <<SYS>>
-        You're a food review analyst. Answer naturally using the context.
-        <</SYS>>
-        
-        Context: {context}
-        Question: {question} [/INST]
-    """)
+    prompt = PromptTemplate(
+            input_variables=["context", "question"],
+            template="""
+        Use the following pieces of context to answer the question at the end.
+        If you don't know the answer, just say you don't know — don't try to make up an answer.
+
+        Context:
+        {context}
+
+        Question:
+        {question}
+
+        Helpful Answer:
+        """
+        )
 
     try:
         if use_hf:
@@ -78,7 +85,7 @@ def retrieve_and_generate(retriever, question, use_hf=True):
         qa_chain = RetrievalQA.from_chain_type(
             llm=llm,
             retriever=retriever,
-            chain_type="stuff",
+            chain_type="map_reduce",
             chain_type_kwargs={"prompt": prompt},
             return_source_documents=True
         )
