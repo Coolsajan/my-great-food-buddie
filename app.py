@@ -202,7 +202,7 @@ def process_user_input(user_input):
         
         # Get response using the retriever
         with st.spinner("Finding answers for you..."):
-            _, answer = retrive_generate(
+            _, answer = retrieve_and_generate(
                 retriever=st.session_state.retriver,
                 question=st.session_state.question
             )        
