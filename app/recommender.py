@@ -56,7 +56,7 @@ def retrive_generate(retriever, question):
 
     # Configure HuggingFace Endpoint properly
     llm = HuggingFaceEndpoint(
-    repo_id="meta-llama/Llama-2-13b-chat-hf",
+    repo_id="meta-llama/Llama-2-7b",
     temperature=0.7,
     max_new_tokens=512,
     return_full_text=False,  # Moved out of model_kwargs
