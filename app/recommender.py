@@ -65,7 +65,7 @@ def retrieve_and_generate(retriever, question, use_hf=True):
                 raise EnvironmentError("Missing HUGGINGFACEHUB_API_TOKEN environment variable")
 
             llm = HuggingFaceEndpoint(
-                repo_id="mistralai/Mistral-7B-Instruct-v0.1",
+                repo_id="tiiuae/falcon-7b-instruct",
                 temperature=0.7,
                 max_new_tokens=512,
                 return_full_text=False,
