@@ -60,11 +60,11 @@ def retrive_generate(retriever,question):
     huggingfacehub_api_token=os.environ["HUGGINGFACEHUB_API_TOKEN"],
     task="text-generation"
 )   
-    llm=ChatHuggingFace(hf)
+    model=ChatHuggingFace(llm=hf)
 
     # Create QA chain
     qa_chain = RetrievalQA.from_chain_type(
-        llm=llm,
+        llm=model,
         retriever=retriever,
         chain_type="stuff",
         chain_type_kwargs={"prompt": prompt}
