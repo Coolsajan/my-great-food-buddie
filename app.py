@@ -1,5 +1,5 @@
 import streamlit as st
-from app.recommender import retrive_generate, check_dB_data
+from app.recommender import  check_dB_data ,retrieve_and_generate
 import time ,sys
 from streamlit_lottie import st_lottie
 import requests
