@@ -6,7 +6,7 @@ colorTo: pink
 sdk: streamlit
 sdk_version: "1.45.1"
 suggested_hardware: "cpu-basic"
-suggested_storgae: "medium"
+suggested_storage: "medium"
 app_file: app.py
 pinned: false
 ---
