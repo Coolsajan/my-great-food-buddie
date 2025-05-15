@@ -78,7 +78,7 @@ def retrieve_and_generate(retriever, question, use_hf=True):
         qa_chain = RetrievalQA.from_chain_type(
             llm=llm,
             retriever=retriever,
-            chain_type="map_reduce",
+            chain_type="stuff",
             chain_type_kwargs={"prompt": prompt},
             return_source_documents=True
         )
