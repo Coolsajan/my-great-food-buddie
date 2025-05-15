@@ -108,6 +108,7 @@ class TripAdviserDataPull:
             logging.info("Entering into initiate_tripadviser_data_pull.")
             review_link=self.get_tripadviser_link()
             reviews=self.get_reviews(review_link=review_link)
+            print(reviews)
 
             filepath=os.path.join(self.review_save_file_path,self.foodPlace,"tripadviser.pkl")
             save_reviews(filepath=filepath,reviews=reviews)

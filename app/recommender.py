@@ -41,6 +41,7 @@ def check_dB_data(foodPlace):
     # Load retriever
     print("\n[INFO] Loading retriever and querying...")
     retriever = load_retriver(foodPlace=foodPlace)
+    print(retriever)
     return retriever
 
 def retrive_generate(retriever, question):
