@@ -29,7 +29,7 @@ def load_reviews(filepath):
 def get_foodPlace_vector_path(foodPlace):
     try:
         safe_foodPlace = re.sub(r"[^\w.-]", "_", foodPlace)
-        vector_path = os.path.join("data", "vector_store", safe_foodPlace)
+        vector_path = os.path.join("./data", "vector_store", safe_foodPlace)
     except Exception as e:
         raise CustomException(e,sys)
     

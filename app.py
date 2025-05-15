@@ -205,8 +205,7 @@ def process_user_input(user_input):
             _, answer = retrive_generate(
                 retriever=st.session_state.retriver,
                 question=st.session_state.question
-            )
-        
+            )        
         response = answer
         st.session_state.messages.append({"role": "assistant", "content": response})
 

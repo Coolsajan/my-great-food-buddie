@@ -4,12 +4,14 @@ import re
 from app.data_ingestion.google_maps_puller import GoogleMapsDataPull
 from app.data_ingestion.tripadviser_puller import TripAdviserDataPull
 from app.preprocessing import CleanAndSaveToChromaDBC
+from huggingface_hub import InferenceClient 
+
 from app.retriver import load_retriver
 from utils.common_utils import *
 from langchain_huggingface import HuggingFaceEndpoint ,ChatHuggingFace
 from langchain.prompts import ChatPromptTemplate
 from langchain_ollama import OllamaLLM
-from langchain.chains import RetrievalQA
+from langchain.chains import RetrievalQA 
 
 
 def check_dB_data(foodPlace):
@@ -41,39 +43,38 @@ def check_dB_data(foodPlace):
     retriever = load_retriver(foodPlace=foodPlace)
     return retriever
 
-def retrive_generate(retriever,question):
-    # Define prompt
+def retrive_generate(retriever, question):
+    # Use proper chat template
     prompt = ChatPromptTemplate.from_template("""
-        You're a review analyst for a food company. Stay focused on the context and answer as clearly and naturally as possible.
-        Think step by step and give the best answer. And rember to give the humanly like result . and Just reply the answer dont use sentence like "as per ai"
-        <context>
-        {context}
-        <context>
-        Question: {question}
+        [INST] <<SYS>>
+        You're a food review analyst. Answer naturally using the context.
+        <</SYS>>
+        
+        Context: {context}
+        Question: {question} [/INST]
     """)
 
-    # Load LLaMA 3 via Ollama
-    #model = OllamaLLM(model="llama3",base_url="http://localhost:11434")
-
-    hf = HuggingFaceEndpoint(
-    repo_id="meta-llama/Llama-2-7b-chat-hf",
+    # Configure HuggingFace Endpoint properly
+    llm = HuggingFaceEndpoint(
+    repo_id="meta-llama/Llama-2-13b-chat-hf",
+    temperature=0.7,
+    max_new_tokens=512,
+    return_full_text=False,  # Moved out of model_kwargs
     huggingfacehub_api_token=os.environ["HUGGINGFACEHUB_API_TOKEN"],
-    task="text-generation"
-)   
-    #model=ChatHuggingFace(llm=hf)
+    task="text-generation",
+)
 
-    # Create QA chain
     qa_chain = RetrievalQA.from_chain_type(
-        llm=hf,
+        llm=llm,
         retriever=retriever,
         chain_type="stuff",
-        chain_type_kwargs={"prompt": prompt}
+        chain_type_kwargs={"prompt": prompt},
+        return_source_documents=True  
     )
 
-    # Ask a question
-    result = qa_chain.invoke(question)
-
-    return result['query'] , result['result']
-
-
-
+    try:
+        result = qa_chain.invoke({"query": question})
+        return question, result["result"]
+    except Exception as e:
+        print(f"Generation Error: {str(e)}")
+        return question, "Could not generate response"    
