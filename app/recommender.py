@@ -74,7 +74,7 @@ def retrieve_and_generate(retriever, question, use_hf=True):
             )
         else:
             llm = OllamaLLM(model="llama2", temperature=0.7)
-
+        print(f"Using model: {llm.repo_id}, task: {llm.task}")
         # 3. QA Chain
         qa_chain = RetrievalQA.from_chain_type(
             llm=llm,
