@@ -58,3 +58,4 @@ watchdog==6.0.0
 streamlit-lottie
 serpapi
 selenium
+langchain-community

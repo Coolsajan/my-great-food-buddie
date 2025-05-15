@@ -8,8 +8,9 @@ from huggingface_hub import InferenceClient
 
 from app.retriver import load_retriver
 from utils.common_utils import *
-from langchain_huggingface import HuggingFaceEndpoint ,ChatHuggingFace
+from langchain_huggingface import HuggingFaceEndpoint ,ChatHuggingFace ,HuggingFacePipeline
 from langchain.prompts import ChatPromptTemplate
+from langchain_community.llms import Hugg 
 from langchain_ollama import OllamaLLM
 from langchain.chains import RetrievalQA 
 
@@ -65,7 +66,7 @@ def retrieve_and_generate(retriever, question, use_hf=True):
                 raise EnvironmentError("Missing HUGGINGFACEHUB_API_TOKEN environment variable")
 
             llm = HuggingFaceEndpoint(
-                repo_id="tiiuae/falcon-7b-instruct",
+                repo_id="google/flan-t5-large",
                 temperature=0.7,
                 max_new_tokens=512,
                 return_full_text=False,
