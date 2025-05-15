@@ -13,6 +13,7 @@ joblib
 kubernetes
 langchain
 langchain-chroma
+langchain-community
 langchain-core
 langchain-huggingface
 langchain-ollama
