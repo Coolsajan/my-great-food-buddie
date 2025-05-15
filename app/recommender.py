@@ -9,7 +9,7 @@ from huggingface_hub import InferenceClient
 from app.retriver import load_retriver
 from utils.common_utils import *
 from langchain_huggingface import HuggingFaceEndpoint ,ChatHuggingFace ,HuggingFacePipeline
-from langchain.prompts import ChatPromptTemplate
+from langchain.prompts import ChatPromptTemplate ,PromptTemplate
 from langchain_ollama import OllamaLLM
 from langchain.chains import RetrievalQA 
 
@@ -49,7 +49,7 @@ def retrieve_and_generate(retriever, question, use_hf=True):
     Retrieves context using the provided retriever and generates a response
     using either Hugging Face or a local model.
     """
-    prompt = ChatPromptTemplate.from_template("""
+    prompt = PromptTemplate.from_template("""
         [INST] <<SYS>>
         You're a food review analyst. Answer naturally using the context.
         <</SYS>>
