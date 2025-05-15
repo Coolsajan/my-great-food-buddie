@@ -6,7 +6,7 @@ from app.data_ingestion.tripadviser_puller import TripAdviserDataPull
 from app.preprocessing import CleanAndSaveToChromaDBC
 from app.retriver import load_retriver
 from utils.common_utils import *
-from langchain import HuggingFaceHub
+from langchain_huggingface import HuggingFaceEndpoint 
 from langchain.prompts import ChatPromptTemplate
 from langchain_ollama import OllamaLLM
 from langchain.chains import RetrievalQA
@@ -54,7 +54,7 @@ def retrive_generate(retriever,question):
 
     # Load LLaMA 3 via Ollama
     #model = OllamaLLM(model="llama3",base_url="http://localhost:11434")
-    hf = HuggingFaceHub(
+    hf = HuggingFaceEndpoint(
     repo_id="meta-llama/Llama-2-7b-chat-hf",
     huggingfacehub_api_token=os.environ["HUGGINGFACEHUB_API_TOKEN"],
 )
