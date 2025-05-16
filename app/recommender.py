@@ -83,7 +83,7 @@ def retrieve_and_generate(retriever, question, use_hf=True):
         )
 
         # Use 'query' key as per RetrievalQA interface
-        result = qa_chain({"query": question})
+        result = qa_chain.invoke(question)
 
         return question, result["result"]
 
