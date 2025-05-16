@@ -43,8 +43,7 @@ def check_dB_data(foodPlace):
     print("\n[INFO] Loading retriever and querying...")
     retriever = load_retriver(foodPlace=foodPlace)
     print(retriever)
-    for i, doc in enumerate(retriever):
-        print(f"\nDocument {i+1}:\n", doc.page_content)
+
     return retriever
 
 def retrieve_and_generate(retriever, question, use_hf=True):
@@ -57,7 +56,9 @@ def retrieve_and_generate(retriever, question, use_hf=True):
             "Context:\n{context}\n\nQuestion:\n{question}\n\nHelpful Answer:"
         )
     ])
-
+    result = retriever.get_relevant_documents(question)
+    for i, doc in enumerate(result):
+        print(f"\nDocument {i+1}:\n", doc.page_content)
     try:
         if use_hf:
             load_dotenv(dotenv_path=".env")
