@@ -49,7 +49,7 @@ def retrieve_and_generate(retriever, question, use_hf=True):
     Retrieves context using the provided retriever and generates a response
     using either Hugging Face or a local model.
     """
-    prompt = PromptTemplate(
+    prompt = ChatPromptTemplate(
             input_variables=["context", "question"],
             template="""
         Use the following pieces of context to answer the question at the end.
