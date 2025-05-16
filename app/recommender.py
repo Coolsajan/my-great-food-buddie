@@ -56,7 +56,7 @@ def retrieve_and_generate(retriever, question, use_hf=True):
             "Context:\n{context}\n\nQuestion:\n{question}\n\nHelpful Answer:"
         )
     ])
-    result = retriever.get_relevant_documents(question)
+    result = retriever.invoke(question)
     for i, doc in enumerate(result):
         print(f"\nDocument {i+1}:\n", doc.page_content)
     try:
