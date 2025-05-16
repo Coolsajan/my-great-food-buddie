@@ -65,7 +65,7 @@ def retrieve_and_generate(retriever, question, use_hf=True):
                 repo_id="mistralai/Mistral-7B-v0.2",
                 temperature=0.7,
                 huggingfacehub_api_token=hf_token,
-                task="text2text-generation"
+                task="text-generation"
             )
         else:
             llm = OllamaLLM(model="llama2", temperature=0.7)
