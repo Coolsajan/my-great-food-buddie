@@ -21,7 +21,7 @@ def load_retriver(foodPlace:str,presist_dir: str = "data/vector_store") -> Vecto
         if not os.path.join(chroma_path):
             raise ValueError(f"no vectore store found at {chroma_path}")
         
-        embedding=HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+        embedding=HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L6-v2')
 
         vectoreDB=Chroma(
             collection_name=safe_foodPlace,
