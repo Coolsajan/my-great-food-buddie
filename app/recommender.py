@@ -49,19 +49,21 @@ def retrieve_and_generate(retriever, question, use_hf=True):
     Retrieves context using the provided retriever and generates a response
     using either Hugging Face or a local model.
     """
-    prompt = ChatPromptTemplate("""
-        Use the following pieces of context to answer the question at the end.
-        If you don't know the answer, just say you don't know — don't try to make up an answer.
+    prompt = PromptTemplate(
+    input_variables=["context", "question"],
+    template="""
+    Use the following pieces of context to answer the question at the end.
+    If you don't know the answer, just say you don't know — don't try to make up an answer.
 
-        Context:
-        {context}
+    Context:
+    {context}
 
-        Question:
-        {question}
+    Question:
+    {question}
 
-        Helpful Answer:
-        """
-        )
+    Helpful Answer:
+    """
+    )
 
     try:
         if use_hf:
@@ -72,7 +74,6 @@ def retrieve_and_generate(retriever, question, use_hf=True):
             llm = HuggingFaceEndpoint(
                 repo_id="mistralai/Mistral-7B-v0.1",
                 temperature=0.7,
-                return_full_text=False,
                 huggingfacehub_api_token=hf_token,
                 task="text2text-generation"
             )
