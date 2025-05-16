@@ -1,5 +1,6 @@
 import os
 import traceback
+from dotenv import load_dotenv
 
 from app.data_ingestion.google_maps_puller import GoogleMapsDataPull
 from app.data_ingestion.tripadviser_puller import TripAdviserDataPull
@@ -57,7 +58,8 @@ def retrieve_and_generate(retriever, question, use_hf=True):
 
     try:
         if use_hf:
-            hf_token = os.getenv("HUGGINGFACEHUB_API_TOKEN")
+            load_dotenv(dotenv_path=".env")
+            hf_token = load_dotenv("HUGGINGFACEHUB_API_TOKEN")
             if not hf_token:
                 raise EnvironmentError("Missing HUGGINGFACEHUB_API_TOKEN environment variable")
 
