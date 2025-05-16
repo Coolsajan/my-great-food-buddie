@@ -45,25 +45,15 @@ def check_dB_data(foodPlace):
     return retriever
 
 def retrieve_and_generate(retriever, question, use_hf=True):
-    """
-    Retrieves context using the provided retriever and generates a response
-    using either Hugging Face or a local model.
-    """
-    prompt = PromptTemplate(
-    input_variables=["context", "question"],
-    template="""
-    Use the following pieces of context to answer the question at the end.
-    If you don't know the answer, just say you don't know — don't try to make up an answer.
-
-    Context:
-    {context}
-
-    Question:
-    {question}
-
-    Helpful Answer:
-    """
-    )
+    prompt = ChatPromptTemplate.from_messages([
+        SystemMessagePromptTemplate.from_template(
+            "Use the following pieces of context to answer the question at the end. "
+            "If you don't know the answer, just say you don't know — don't try to make up an answer."
+        ),
+        HumanMessagePromptTemplate.from_template(
+            "Context:\n{context}\n\nQuestion:\n{question}\n\nHelpful Answer:"
+        )
+    ])
 
     try:
         if use_hf:
@@ -79,8 +69,9 @@ def retrieve_and_generate(retriever, question, use_hf=True):
             )
         else:
             llm = OllamaLLM(model="llama2", temperature=0.7)
-        print(f"Using model: {llm.repo_id}, task: {llm.task}")
-        # 3. QA Chain
+
+        print(f"Using model: {getattr(llm, 'repo_id', 'local model')}")
+
         qa_chain = RetrievalQA.from_chain_type(
             llm=llm,
             retriever=retriever,
@@ -89,8 +80,9 @@ def retrieve_and_generate(retriever, question, use_hf=True):
             return_source_documents=True
         )
 
-        # 4. Run
-        result = qa_chain.invoke({"query": question})
+        # Use 'query' key as per RetrievalQA interface
+        result = qa_chain({"query": question})
+
         return question, result["result"]
 
     except Exception as e:

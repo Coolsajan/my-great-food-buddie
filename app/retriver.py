@@ -7,7 +7,7 @@ from utils.exceptions import CustomException
 from utils.logger import logging
 
 
-def load_retriver(foodPlace:str,presist_dir: str = "data/vector_store") -> VectorStoreRetriever:
+def load_retriver(foodPlace:str,presist_dir: str = "tmp/data/vector_store") -> VectorStoreRetriever:
     """
     load ChromaDB vectore store and retrun langchain retriver.
     """
