@@ -43,8 +43,8 @@ def check_dB_data(foodPlace):
     print("\n[INFO] Loading retriever and querying...")
     retriever = load_retriver(foodPlace=foodPlace)
     print(retriever)
-    for i , doc in enumerate(retriever,start=1):
-        print(f"{i} : {doc.page_content}")
+    for i, doc in enumerate(retriever):
+        print(f"\nDocument {i+1}:\n", doc.page_content)
     return retriever
 
 def retrieve_and_generate(retriever, question, use_hf=True):
