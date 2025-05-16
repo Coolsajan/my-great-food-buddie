@@ -59,7 +59,7 @@ def retrieve_and_generate(retriever, question, use_hf=True):
     try:
         if use_hf:
             load_dotenv(dotenv_path=".env")
-            hf_token = load_dotenv("HUGGINGFACEHUB_API_TOKEN")
+            hf_token = load_dotenv("NEW_HF_KEY")
             if not hf_token:
                 raise EnvironmentError("Missing HUGGINGFACEHUB_API_TOKEN environment variable")
 
