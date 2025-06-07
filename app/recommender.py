@@ -66,12 +66,11 @@ def retrieve_and_generate(retriever, question, use_hf=True):
             if not hf_token:
                 raise EnvironmentError("Missing HUGGINGFACEHUB_API_TOKEN environment variable")
 
-            llm = HuggingFaceEndpoint(
-                repo_id="google/flan-t5-xl",
-                temperature=0.7,
-                huggingfacehub_api_token=hf_token,
-                task="text2text-generation",
-                model_kwargs={"provider": "huggingface"}  # Critical fix
+            client = InferenceClient(token=hf_token)
+            client.text_generation(
+                prompt="Test",
+                model="google/flan-t5-xl",
+                task="text2text-generation"
             )
         else:
             llm = OllamaLLM(model="llama2", temperature=0.7)
