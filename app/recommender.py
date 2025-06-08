@@ -70,7 +70,10 @@ def retrieve_and_generate(retriever, question, use_hf=True):
             client.text_generation(
                 prompt="Test",
                 model="google/flan-t5-xl",
-                task="text2text-generation"
+                max_new_tokens=512,
+                temperature=0.7,
+                repetition_penalty=1.03,
+                return_full_text=False
             )
         else:
             llm = OllamaLLM(model="llama2", temperature=0.7)
