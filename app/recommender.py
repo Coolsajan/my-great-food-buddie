@@ -69,7 +69,7 @@ def retrieve_and_generate(retriever, question, use_hf=True):
             client = InferenceClient(token=hf_token)
             client.text_generation(
                 prompt="Test",
-                model="google/flan-t5-xl",
+                model="mistralai/Mistral-7B-Instruct-v0.2",
                 max_new_tokens=512,
                 temperature=0.7,
                 repetition_penalty=1.03,
@@ -78,7 +78,7 @@ def retrieve_and_generate(retriever, question, use_hf=True):
         else:
             llm = OllamaLLM(model="llama2", temperature=0.7)
 
-        print(f"Using model: {getattr(llm, 'repo_id', 'local model')}")
+        print(f"Using model: {getattr(client, 'repo_id', 'local model')}")
 
         qa_chain = RetrievalQA.from_chain_type(
             llm=llm,
