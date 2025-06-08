@@ -81,7 +81,7 @@ def retrieve_and_generate(retriever, question, use_hf=True):
         print(f"Using model: {getattr(client, 'repo_id', 'local model')}")
 
         qa_chain = RetrievalQA.from_chain_type(
-            llm=llm,
+            llm=client,
             retriever=retriever,
             chain_type="stuff",
             chain_type_kwargs={"prompt": prompt},
