@@ -1,41 +1,42 @@
-import re ,os,sys
+import re
+import os
+import sys
 from langchain_chroma import Chroma
-from chromadb.config import Settings
 from langchain_huggingface.embeddings import HuggingFaceEmbeddings
 from langchain.vectorstores.base import VectorStoreRetriever
 from utils.exceptions import CustomException
 from utils.logger import logging
 
-
-def load_retriver(foodPlace:str,presist_dir: str = "data/vector_store") -> VectorStoreRetriever:
+def load_retriver(foodPlace: str, persist_dir: str = "data/vector_store") -> VectorStoreRetriever:
     """
-    load ChromaDB vectore store and retrun langchain retriver.
+    Load ChromaDB vector store and return langchain retriever.
     """
     try:
-        logging.info("Data retriver started..")
+        logging.info("Data retriever started..")
+
         safe_foodPlace = re.sub(r"[^\w.-]", "_", foodPlace)
-
-        chroma_path=os.path.join(presist_dir,safe_foodPlace)
-        print(chroma_path)
-
-        if not os.path.join(chroma_path):
-            raise ValueError(f"no vectore store found at {chroma_path}")
+        chroma_path = os.path.join(persist_dir, safe_foodPlace)
         
-        embedding=HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L6-v2')
+        if not os.path.exists(chroma_path):
+            raise ValueError(f"No vector store found at {chroma_path}")
+        
+        embedding = HuggingFaceEmbeddings(
+            model_name='sentence-transformers/all-MiniLM-L6-v2'
+        )
 
-        vectoreDB=Chroma(
-            collection_name=safe_foodPlace,
+       
+        vectorDB = Chroma(
             persist_directory=chroma_path,
-            embedding_function=embedding
+            embedding_function=embedding,
+            collection_name=safe_foodPlace  
         )
 
-        retriver=vectoreDB.as_retriever(
+        retriever = vectorDB.as_retriever(
             search_type="similarity",
-            search_kwargs ={'k':3}
+            search_kwargs={'k': 3}
         )
 
-        return retriver
+        return retriever
     
     except Exception as e:
-        raise CustomException(e,sys)
-    
+        raise CustomException(e, sys)

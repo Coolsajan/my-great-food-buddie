@@ -1,8 +1,11 @@
+from app.recommender import check_dB_data,retrieve_and_generate
 
-from app.data_ingestion.tripadviser_puller import TripAdviserDataPull
 
-pull = TripAdviserDataPull(foodPlace="White rabbit pokhara")
+foodPlace ="white rabbit pokhara"
 
-result =pull.initiate_tripadviser_data_pull()
-print(result)
+Question = "Best food to try ?"
 
+
+
+retriver = check_dB_data(foodPlace=foodPlace)
+retrieve_and_generate(retriever=retriver , question=Question)

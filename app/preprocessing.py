@@ -12,7 +12,7 @@ from dataclasses import dataclass
 
 @dataclass
 class CleanAndSaveToChromaDBConfig:
-    chromedb_save_filepath : str = os.path.join("tmp","data","vector_store")
+    chromedb_save_filepath : str = os.path.join("data","vector_store")
 
 class CleanAndSaveToChromaDBC:
     """
@@ -29,13 +29,13 @@ class CleanAndSaveToChromaDBC:
         try:
             logging.info("Starting get_data method from CleanAndSaveToChromeDBC class.. ")
 
-            first_review=load_reviews(filepath=filepath[0])
-            second_review=load_reviews(filepath=filepath[-1])
-
-            full_reviews = first_review + second_review
-
+            full_reviews = []
+            for fp in filepath:
+                full_reviews.extend(load_reviews(filepath=fp))
             logging.info("Exisiting get_data")
+            print(full_reviews)
             return full_reviews
+
         
         except Exception as e:
             raise CustomException(e,sys)
@@ -89,7 +89,7 @@ class CleanAndSaveToChromaDBC:
             path=os.path.join(CleanAndSaveToChromaDBConfig().chromedb_save_filepath,safe_foodPlace)
             os.makedirs(path,exist_ok=True)
             
-            setting=Settings(chroma_db_impl="duckdb+parquet")
+            setting=Settings()
             client = PersistentClient(path=path,settings=setting)
             collection = client.get_or_create_collection(name=safe_foodPlace)
             collection.add(documents=cleaned_reviews, embeddings=vectors, ids=[f"id-{i}" for i in range(len(cleaned_reviews))])

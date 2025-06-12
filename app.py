@@ -1,11 +1,15 @@
 import streamlit as st
 from app.recommender import  check_dB_data ,retrieve_and_generate
 import time ,sys
+import types
+import torch
 from streamlit_lottie import st_lottie
 import requests
 
 
 # Set page configuration
+torch.classes.__path__ = types.SimpleNamespace(_path=[])
+
 st.set_page_config(
     page_title="Food Buddy Chatbot",
     page_icon="🍽️",

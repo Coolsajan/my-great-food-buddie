@@ -5,14 +5,18 @@ from dotenv import load_dotenv
 from app.data_ingestion.google_maps_puller import GoogleMapsDataPull
 from app.data_ingestion.tripadviser_puller import TripAdviserDataPull
 from app.preprocessing import CleanAndSaveToChromaDBC
-from huggingface_hub import InferenceClient 
+from langchain.chains import ConversationalRetrievalChain
+from langchain.memory import ConversationBufferWindowMemory
 
-from app.retriver import load_retriver
+
+from app.retriver import load_retriver 
 from utils.common_utils import *
 from langchain_huggingface import HuggingFaceEndpoint ,ChatHuggingFace ,HuggingFacePipeline
 from langchain.prompts import ChatPromptTemplate ,PromptTemplate ,SystemMessagePromptTemplate,HumanMessagePromptTemplate
 from langchain_ollama import OllamaLLM
-from langchain.chains import RetrievalQA 
+from langchain.chains import RetrievalQA
+from langchain.chains import ConversationalRetrievalChain
+
 
 
 def check_dB_data(foodPlace):
@@ -47,51 +51,62 @@ def check_dB_data(foodPlace):
     return retriever
 
 def retrieve_and_generate(retriever, question, use_hf=True):
-    prompt = ChatPromptTemplate.from_messages([
-        SystemMessagePromptTemplate.from_template(
-            "Use the following pieces of context to answer the question at the end. "
-            "If you don't know the answer, just say you don't know — don't try to make up an answer."
-        ),
-        HumanMessagePromptTemplate.from_template(
-            "Context:\n{context}\n\nQuestion:\n{question}\n\nHelpful Answer:"
-        )
-    ])
-    result = retriever.invoke(question)
-    for i, doc in enumerate(result):
-        print(f"\nDocument {i+1}:\n", doc.page_content)
+    prompt_template = """
+    [INST]
+    Your are an expert food review anylisis .Using the following contect reply the to the question as humally as possible .
+    If you don't know the answer, say "I don't know."
+
+    Context:
+    {context}
+
+    Question:
+    {question}
+    [/INST]
+    """
+
+    prompt = PromptTemplate(
+        input_variables=["context", "question"],
+        template=prompt_template
+    )
+
     try:
+        load_dotenv(dotenv_path=".env")
+        hf_token = os.getenv("NEW_HF_KEY")
         if use_hf:
-            load_dotenv(dotenv_path=".env")
-            hf_token = os.getenv("NEW_HF_KEY")
             if not hf_token:
                 raise EnvironmentError("Missing HUGGINGFACEHUB_API_TOKEN environment variable")
 
-            client = InferenceClient(token=hf_token)
-            client.text_generation(
-                prompt="Test",
-                model="mistralai/Mistral-7B-Instruct-v0.2",
-                max_new_tokens=512,
+            llm = HuggingFaceEndpoint(
+                repo_id="mistralai/Mistral-7B-Instruct-v0.3",
+                task="text-generation",
+                huggingfacehub_api_token=hf_token,
                 temperature=0.7,
-                repetition_penalty=1.03,
-                return_full_text=False
+                max_new_tokens=512
             )
         else:
-            llm = OllamaLLM(model="llama2", temperature=0.7)
+            from langchain_ollama import OllamaLLM
+            llm = OllamaLLM(model="llama2", temperature=0.5)
 
-        print(f"Using model: {getattr(client, 'repo_id', 'local model')}")
+        docs = retriever.invoke(question)
+        print(docs)
+        print([doc.page_content for doc in docs])
 
-        qa_chain = RetrievalQA.from_chain_type(
-            llm=client,
-            retriever=retriever,
-            chain_type="stuff",
-            chain_type_kwargs={"prompt": prompt},
-            return_source_documents=True
-        )
+        # Combine docs into context string
+        context_text = "\n\n".join([doc.page_content for doc in docs])
 
-        # Use 'query' key as per RetrievalQA interface
-        result = qa_chain.invoke(question)
+        formatted_prompt = prompt.format(context=context_text, question=question)
 
-        return question, result["result"]
+        # Call LLM with a string prompt, NOT a dict
+        response = llm.invoke(formatted_prompt)
+
+        answer = response.strip()
+
+        # Print retrieved docs for debugging
+        print("\n--- Retrieved Documents ---")
+        for i, doc in enumerate(docs):
+            print(f"Doc {i+1}:\n{doc.page_content}\n")
+
+        return question, answer
 
     except Exception as e:
         print(f"Generation Error: {e}")
