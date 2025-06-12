@@ -13,7 +13,7 @@ RAPID_API_KEY=os.getenv("RAPID_API_KEY")
 
 @dataclass
 class GoogleMapsDataPullConfig:
-    review_save_file_path : str = os.path.join("data","raw")
+    review_save_file_path : str = os.path.join("tmp","data","raw")
 
 
 class GoogleMapsDataPull:

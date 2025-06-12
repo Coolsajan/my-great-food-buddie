@@ -7,7 +7,7 @@ from langchain.vectorstores.base import VectorStoreRetriever
 from utils.exceptions import CustomException
 from utils.logger import logging
 
-def load_retriver(foodPlace: str, persist_dir: str = "data/vector_store") -> VectorStoreRetriever:
+def load_retriver(foodPlace: str, persist_dir: str = "tmp/data/vector_store") -> VectorStoreRetriever:
     """
     Load ChromaDB vector store and return langchain retriever.
     """

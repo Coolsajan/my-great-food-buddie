@@ -20,7 +20,7 @@ SERPAPI_KEY = os.getenv("SERPAPI_KEY")
 
 @dataclass
 class TripAdviserDataPullConfig:
-    review_save_file_path : str = os.path.join("data","raw")
+    review_save_file_path : str = os.path.join( "tmp","data","raw")
 
 
 class TripAdviserDataPull:

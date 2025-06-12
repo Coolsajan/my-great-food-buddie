@@ -12,7 +12,7 @@ from dataclasses import dataclass
 
 @dataclass
 class CleanAndSaveToChromaDBConfig:
-    chromedb_save_filepath : str = os.path.join("data","vector_store")
+    chromedb_save_filepath : str = os.path.join("tmp","data","vector_store")
 
 class CleanAndSaveToChromaDBC:
     """
