@@ -46,7 +46,6 @@ def check_dB_data(foodPlace):
     # Load retriever
     print("\n[INFO] Loading retriever and querying...")
     retriever = load_retriver(foodPlace=foodPlace)
-    print(retriever)
 
     return retriever
 
@@ -54,7 +53,8 @@ def retrieve_and_generate(retriever, question, use_hf=True):
     prompt_template = """
     [INST]
     Your are an expert food review anylisis .Using the following contect reply the to the question as humally as possible .
-    If you don't know the answer, say "I don't know."
+    If you don't know the answer, say "I don't know.
+    Start answer with "With deep analysis of reviews""
 
     Context:
     {context}
@@ -88,8 +88,8 @@ def retrieve_and_generate(retriever, question, use_hf=True):
             llm = OllamaLLM(model="llama2", temperature=0.5)
 
         docs = retriever.invoke(question)
-        print(docs)
-        print([doc.page_content for doc in docs])
+        
+
 
         # Combine docs into context string
         context_text = "\n\n".join([doc.page_content for doc in docs])

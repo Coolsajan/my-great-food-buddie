@@ -85,12 +85,12 @@ st.markdown("""
         0%, 100% { transform: translateY(0); }
         50% { transform: translateY(-10px); }
     }
-    .stTitle {
-        font-size: 2.5rem !important;
-        font-weight: 300 !important;
-        margin-bottom: 2rem !important;
-        color: #2b313e;
-        text-align: center;
+    h1 {
+        font-size: 35px !important;  
+        color: #df9708 !important;   
+        font-weight: 700 !important;
+        text-align: center !important;
+        margin-bottom: 1rem !important;
     }
     .step-container {
         background-color: white;
@@ -149,7 +149,7 @@ chat_lottie = load_lottieurl("https://assets9.lottiefiles.com/packages/lf20_4few
 # Header with animation
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
-    st.title("🍽️Great Food Buddie",)
+    st.title("Great Food Buddie😋")
     if food_lottie:
         st_lottie(food_lottie, height=150, key="food_animation")
 
