@@ -11,47 +11,93 @@ app_file: app.py
 pinned: false
 ---
 
-# 🍔 Great Food Buddiie - RAG + LLM Restaurant Review Chatbot
+# 🍽️ Great Food Buddie
 
-Food Buddiie is an intelligent chatbot that helps users explore restaurant reviews using a **Retrieval-Augmented Generation (RAG)** pipeline. It combines **Chroma DB** for storing and retrieving restaurant review embeddings with **LLaMA 3** for generating conversational responses. Built with **Streamlit** and deployed on **Hugging Face Spaces**.
+**Great Food Buddie** is an intelligent chatbot built using **Streamlit** that helps users explore food places and restaurants. Ask about any restaurant, and the assistant will guide you step-by-step—from identifying the place to giving detailed insights based on retrieved reviews.
 
 ---
 
 ## 🚀 Features
 
-- 🔎 **RAG Pipeline**: Retrieves relevant reviews based on your query.
-- 🧠 **LLM-Powered**: Uses LLaMA 3 to generate human-like responses.
-- 🗂 **Chroma DB**: Fast and scalable vector store for text embeddings.
-- 💬 **Streamlit UI**: Clean and interactive chat-based frontend.
-- ☁️ **Hugging Face Spaces Deployment**: Easily deployable via GitHub Actions.
+- 🤖 **Interactive Chatbot UI** powered by `st.chat_input` and `st.chat_message`.
+- 📍 **Step-by-step flow**:
+  1. Ask the food place.
+  2. Ask the location.
+  3. Ask the question.
+- 🔎 **ChromeaDB integration** for storing and retrieving review data.
+- 💬 **Natural response generation** via `retrieve_and_generate`.
+- 🎨 **Custom animated UI** using Lottie and CSS enhancements.
+- 📦 Easy deployment and clean layout with a responsive centered page.
 
 ---
 
-## 🧱 Tech Stack
+## 🧠 Tech Stack
 
-- `LLaMA 3` (Meta)
-- `Chroma DB`
-- `sentence-transformers` for embeddings
-- `Streamlit` for frontend
-- `Hugging Face Spaces` for deployment
-
----
-
-## 🏗 Architecture Overview
-
-1. **User Input** → via Streamlit chat interface
-2. **Query Embedding** → converts input to vector using sentence-transformers
-3. **Chroma DB** → retrieves top-k similar reviews
-4. **LLM Prompting** → builds a prompt using retrieved texts
-5. **LLaMA 3** → generates a detailed response
-6. **Display** → renders the response in the chat interface
+| Component       | Technology                                 |
+| --------------- | ------------------------------------------ |
+| Frontend        | Streamlit                                  |
+| Chat UI         | `st.chat_input`, `st.chat_message`         |
+| Animation       | [Lottie Files](https://lottiefiles.com/)   |
+| Backend Logic   | Python                                     |
+| Data Retrieval  | ChromeaDB (via `check_dB_data`)            |
+| Response Engine | Custom retriever (`retrieve_and_generate`) |
+| Styling         | Custom CSS injected via Streamlit          |
 
 ---
 
-## 📦 Installation
+## 📷 Screenshots
+
+> ![Screnshot of greatfoodbuddie UI](img\image.png)
+
+---
+
+## ⚙️ Installation
 
 ```bash
-git clone https://github.com/your-username/food-buddiie.git
-cd food-buddiie
+# Clone the repository
+git clone https://github.com/yourusername/great-food-buddie.git
+cd great-food-buddie
+
+# Install dependencies
 pip install -r requirements.txt
+
+# Run the app
+streamlit run main.py
 ```
+
+---
+
+## 📚 How It Works
+
+1. User enters the name of a food place.
+2. App asks for its location.
+3. App checks if the data exists in the database (via `check_dB_data`).
+4. Once confirmed, user can ask specific questions about the place.
+5. Answer is generated via the `retrieve_and_generate` pipeline.
+6. Everything is shown with a friendly UI and chat animation.
+
+---
+
+## ✨ Future Plans
+
+- Integrate live Google Reviews scraping (with consent).
+- Enhance the RAG system with sentiment analysis.
+- Add multilingual support.
+- Export chat history or summaries.
+
+---
+
+## 🙌 Acknowledgements
+
+- [Streamlit](https://streamlit.io/)
+- [LottieFiles](https://lottiefiles.com/)
+- ChromeaDB for retrieval
+- Your custom RAG pipeline
+
+---
+
+## 📬 Contact
+
+> Created with ❤️ by [Sajan Thapa]  
+> ✉️ Contact: tsajan001@.gamail.com  
+> 🌐 [[Linkedin](https://www.linkedin.com/in/sabu-sajanthapa/)]
