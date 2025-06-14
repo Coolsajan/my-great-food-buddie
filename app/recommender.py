@@ -75,7 +75,7 @@ def retrieve_and_generate(retriever, question, use_hf=True):
         if use_hf:
             if not hf_token:
                 raise EnvironmentError("Missing HUGGINGFACEHUB_API_TOKEN environment variable")
-
+            
             llm = HuggingFaceEndpoint(
                 repo_id="mistralai/Mistral-7B-Instruct-v0.3",
                 task="text-generation",

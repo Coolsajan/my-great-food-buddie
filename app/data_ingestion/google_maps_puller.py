@@ -51,7 +51,7 @@ class GoogleMapsDataPull:
             response = requests.get(url, headers=headers, params=querystring)
             logging.info(f"Responsed grerated for {self.foodPlace} ...")
 
-            business_id=response.json()['parameters'][0].get("business_id")
+            business_id=response.json()["data"][0].get("business_id")
             logging.info("Business id collection...")
 
             return business_id
