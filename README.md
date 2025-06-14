@@ -47,7 +47,7 @@ pinned: false
 
 ## 📷 Screenshots
 
-> ![Screnshot of greatfoodbuddie UI](img\image.png)
+> ![Screnshot of greatfoodbuddie UI](image.png)
 
 ---
 
@@ -98,6 +98,6 @@ streamlit run main.py
 
 ## 📬 Contact
 
-> Created with ❤️ by [Sajan Thapa]  
-> ✉️ Contact: tsajan001@.gamail.com  
-> 🌐 [[Linkedin](https://www.linkedin.com/in/sabu-sajanthapa/)]
+> Created with ❤️ by Sajan Thapa  
+> ✉️ Contact: tsajan001@.gmail.com  
+> 🌐 [[My Linkedin](https://www.linkedin.com/in/sabu-sajanthapa/)]
