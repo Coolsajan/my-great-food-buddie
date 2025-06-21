@@ -1,5 +1,6 @@
 import streamlit as st
 from app.recommender import  check_dB_data ,retrieve_and_generate
+from utils.common_utils import clean_markdown
 import time ,sys
 import types
 import torch
@@ -210,7 +211,7 @@ def process_user_input(user_input):
                 retriever=st.session_state.retriver,
                 question=st.session_state.question
             )        
-        response = answer
+        response = clean_markdown(answer)
         st.session_state.messages.append({"role": "assistant", "content": response})
 
 # Initial welcome message
@@ -255,4 +256,4 @@ with st.sidebar:
         st_lottie(chat_lottie, height=200, key="chat_animation")
     
     st.markdown("---")
-    st.caption("Great Food Buddie - Your personal restaurant information assistant")
+    st.caption("Great Food Buddie - Your personal restaurant information assistant") 

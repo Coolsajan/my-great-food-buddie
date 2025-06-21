@@ -40,14 +40,15 @@ class GoogleMapsDataPull:
         """
         try:
             logging.info("Entering into GoogleMapsDataPull...")
-            url = "https://local-business-data.p.rapidapi.com/search"
+            url = "https://maps-data.p.rapidapi.com/searchmaps.php"
 
-            querystring = {"query":self.foodPlace,"limit":"35","lat":"37.359428","lng":"-121.925337","zoom":"13","language":"en","region":"us","extract_emails_and_contacts":"false"}
+            querystring = {"query":self.foodPlace,"limit":"5","country":"us","lang":"en","lat":"51.5072","lng":"0.12","offset":"0","zoom":"13"}
 
             headers = {
                 "x-rapidapi-key": RAPID_API_KEY,
-                "x-rapidapi-host": "local-business-data.p.rapidapi.com"
+                "x-rapidapi-host": "maps-data.p.rapidapi.com"
             }
+
             response = requests.get(url, headers=headers, params=querystring)
             logging.info(f"Responsed grerated for {self.foodPlace} ...")
 
@@ -65,10 +66,9 @@ class GoogleMapsDataPull:
         """
         try:
             logging.info(f"Starting the review pull from rapid api using {self.foodPlace}:{business_id}")
-            url = "https://local-business-data.p.rapidapi.com/business-reviews"
+            url = "https://maps-data.p.rapidapi.com/reviews.php"
 
-            querystring = {"business_id":business_id,"limit":"5000","sort_by":"most_relevant","region":"us","language":"en"}
-
+            querystring = {"business_id":business_id,"country":"us","lang":"en","limit":"500","sort":"Relevant"}
             headers = {
                 "x-rapidapi-key": RAPID_API_KEY,
                 "x-rapidapi-host": "local-business-data.p.rapidapi.com"
@@ -78,7 +78,7 @@ class GoogleMapsDataPull:
 
             logging.info(f"Responsed generated for {self.foodPlace} ...")
             print(response.json())
-            data_list=list(response.json()['data'])
+            data_list=list(response.json()['data']['reviews'])
             logging.info(f"Data list obtained with {len(data_list)} datas.")
             reviews=[]
 

@@ -78,3 +78,7 @@ def trig_retriver(question, keywords = food_recommendation_keywords):
         else :
             retriver = False
     return retriver
+
+def clean_markdown(text):
+    return re.sub(r"```[\s\S]*?```", lambda m: m.group(0).strip('`').strip(), text)
+
