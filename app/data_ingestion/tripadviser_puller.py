@@ -50,7 +50,7 @@ class TripAdviserDataPull:
             logging.info("Entered inot  TripAdviserDataPull... ")
 
             params = {"engine": "google",
-                       "q": "white rabbit pokhara",
+                       "q": self.foodPlace,
                         "api_key": SERPAPI_KEY}
             
             response = search(params=params)
