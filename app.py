@@ -180,7 +180,7 @@ def process_user_input(user_input):
     
     # Process based on current step
     if st.session_state.step == 1:
-        st.session_state.place = user_input
+        st.session_state.place = user_input.strip()
         st.session_state.step = 2
         
         # Add bot response
@@ -188,7 +188,7 @@ def process_user_input(user_input):
         st.session_state.messages.append({"role": "assistant", "content": response})
         
     elif st.session_state.step == 2:
-        st.session_state.location = user_input
+        st.session_state.location = user_input.strip()
         st.session_state.step = 3
         
         # Extract reviews into ChromeaDB
